@@ -11,26 +11,23 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.github.maciej.kaznowski.intervalsicuclient.api.ActivitiesApi
-import com.github.maciej.kaznowski.intervalsicuclient.invoker.auth.HttpBasicAuth
-import com.github.maciej.kaznowski.intervalsicuclient.invoker.infrastructure.ApiClient
 import com.github.maciej.kaznowski.intervalsicuclient.model.Activity
 import com.github.maciej.kaznowski.intervalsicuclient.model.ActivityStream
 import com.github.maciej.kaznowski.spinstats.ui.theme.SpinStatsForIntervalsicuTheme
+import dagger.hilt.android.AndroidEntryPoint
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+    @Inject
+    lateinit var activitiesApi: ActivitiesApi
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val password = BuildConfig.INTERVALS_ICU_API_KEY
-        val username = "API_KEY"
-
-        val activitiesApi = ApiClient(
-            baseUrl = "https://intervals.icu"
-        )
-            .addAuthorization("basic", HttpBasicAuth(username, password))
-            .createService(ActivitiesApi::class.java)
 
         activitiesApi.listActivities(
             id = "i75876", oldest = "2024-02-01", newest = "2024-03-01"
