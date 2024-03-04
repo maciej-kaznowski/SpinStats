@@ -1,0 +1,22 @@
+plugins {
+    alias(libs.plugins.openApiGenerator)
+}
+
+openApiGenerate {
+    cleanupOutput = false
+    skipValidateSpec = true
+    generatorName = 'kotlin'
+    outputDir = "$rootDir/intervals-icu-client"
+    remoteInputSpec = 'https://intervals.icu/api/v1/docs'
+    apiPackage = 'com.github.maciej.kaznowski.intervalsicuclient.api'
+    modelPackage = 'com.github.maciej.kaznowski.intervalsicuclient.model'
+    packageName = 'com.github.maciej.kaznowski.intervalsicuclient.invoker'
+    getConfigOptions().set([
+            "dateLibrary"       : "java8",
+            "collectionType"    : "list",
+            "enumPropertyNaming": "UPPERCASE",
+            "library"           : "jvm-retrofit2",
+            "moshiCodeGen"      : "true",
+            "omitGradleWrapper" : "true",
+    ])
+}
